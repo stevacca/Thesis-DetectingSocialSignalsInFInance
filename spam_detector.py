@@ -41,12 +41,16 @@ svm_classifier = Pipeline([
                                          decode_error='ignore',
                                          analyzer='word',
                                          norm='l2',
+                                         use_idf=True,
                                          ngram_range=(1, 2)
                                          )),
         ('clf', SVC(probability=True,
-                    C=10,
+                    C=2,
                     shrinking=True,
-                    kernel='linear'))
+                    kernel='linear',
+                    gamma=0.001,
+                    class_weight='balanced'
+                    ))
 ])
 
 
@@ -150,7 +154,7 @@ def clean_spam_telegram(names, rangedate_from, rangedate_to, spam_classifier, sp
         data = data.iloc[:, 1:]
         df = predict_spam(data, spam_classifier, type_data=spammer)
 
-        df.to_csv(os.path.join(os.getcwd(), 'telegram_data', 'clean_data', 'Telegram_cleanedData_'
+        df.to_csv(os.path.join(os.getcwd(), 'telegram_data', 'clean_data', nome+'_cleanedData_'
                                + rangedate_from + '_' + rangedate_to + '.csv'))
         print('File salvato correttamente nella cartella "CLEANED_DATA"')
 
@@ -169,27 +173,26 @@ def clean_spam_reddit(reddit_queries, spam_classifier, spammer, folder):
         # Predict spam
         df = predict_spam(data, spam_classifier, type_data=spammer)
         # save to csv
-        df.to_csv(os.path.join(os.getcwd(), 'reddit_data', 'clean_data', query + '_' + folder + '.csv'))
+        df.to_csv(os.path.join(os.getcwd(), 'reddit_data', 'clean_data', query + '_messages_' + folder + '.csv'))
 
 
 if __name__ == '__main__':
     # Select spammer
-    spammer = 'reddit' # telegram
+    spammer = 'reddit' # reddit
 
     # If reddit spam messages set folder
-    reddit_folder = 'data_michi'#'2019_august_data'
+    reddit_folder = 'subreddit_libra'
     reddit_queries = [
-        # 'facecoin'
-        # 'bitcoin',
-        # 'ethereum'
-        'dataisbeautiful'
+        'libra'
     ]
 
     # If telegram spam messages to consider
-    rangedate_from, rangedate_to = '2019-09-01', '2019-09-17'
+    rangedate_from, rangedate_to = '2019-07-01', '2019-11-18'
     names = [
         # 'Bad Crypto Podcast', 'The Coin Farm',
-        'Ripple Group',
+        # 'Ripple Group',
+        'Red Passion ferrari',
+        'Scuderia Ferrari'
         # 'WCSE RA TALKS', 'Tron Village',
         # 'Singularity net', 'AION Network'
     ]
