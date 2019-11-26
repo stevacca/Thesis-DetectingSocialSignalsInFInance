@@ -18,6 +18,8 @@ from sklearn.svm import SVC
 import nltk
 import random
 import datetime
+import scikitplot as skplt
+import matplotlib.pyplot as plt
 
 
 def cleanText(text):
@@ -162,6 +164,8 @@ def get_reddit_classifier(clf):
         test_size=0.33,
         random_state=15)
 
+    calibration_plot(clf, x_train, y_train, x_test, y_test) # it doesn't work with three classes, only 2
+
     clf.fit(x_train, y_train)
     predictions = clf.predict(x_test)
     print('\n------------------------- SVM MODEL ------------------------\n '
@@ -169,7 +173,35 @@ def get_reddit_classifier(clf):
            len(x_train), len(x_test), accuracy_score(y_test, predictions) * 100), '\n\n',
           classification_report(y_test, predictions))
 
+    from sklearn.metrics import confusion_matrix
+    # print(confusion_matrix(y_test, predictions))
+    skplt.metrics.plot_confusion_matrix(y_test, predictions, normalize=True)
+    plt.show()
     return clf
+
+def calibration_plot(clf, X_train, y_train, X_test, y_test):
+    """
+    Function to plot the calibration
+    :param clf:
+    :param X_train:
+    :param y_train:
+    :param X_test:
+    :param y_test:
+    :return:
+    """
+    from collections import OrderedDict
+    cmaps = OrderedDict()
+    cmaps['Perceptually Uniform Sequential'] = [
+        'viridis', 'plasma', 'inferno', 'magma', 'cividis']
+
+    svm_scores = clf.fit(X_train, y_train).decision_function(X_test)
+    clf_names = ['Support Vector Machine']
+    probas_list = [svm_scores]
+    # skplt.metrics.plot_calibration_curve(y_test, probas_list, clf_names)
+    y_probas = clf.predict_proba(X_test)
+    skplt.metrics.plot_precision_recall(y_test, y_probas, cmap='Purples') #GnBu_r
+    plt.grid(True)
+    plt.show()
 
 
 if __name__ == '__main__':
@@ -177,7 +209,7 @@ if __name__ == '__main__':
     classifier = get_reddit_classifier(svm_classifier)
 
     # Choose the files to calculate the Sentiment
-    file_list = ['bitcoin_2019_august_data.csv']
+    file_list = ['Bitcoin_messages_2019_january_data.csv']
     for file in file_list:
         file_name_tosave = file.split('_')[0]
 
