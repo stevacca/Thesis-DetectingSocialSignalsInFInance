@@ -1,6 +1,7 @@
 import networkx as nx
 import pandas as pd
 import os
+from datetime import datetime
 
 
 def create_network(data_frame, path_to_save):
@@ -57,17 +58,24 @@ def new_create_network(data_frame, path_to_save):
     nx.write_gml(g_symmetric, os.path.join(path_to_save))
 
 
+def from_unix_to_datestamp(ts):
+
+    ts = int(ts)
+    # if you encounter a "year is out of range" error the timestamp
+    # may be in milliseconds, try `ts /= 1000` in that case
+    return datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+
 if __name__ == '__main__':
 
     # Insert Reddit dataframe to calculate the network
-    filename = 'bitcoin_2019_august_data'
-    path = os.path.join(os.getcwd(), 'reddit_data', 'clean_data', filename+'.csv')
-    path_saver = os.path.join(os.getcwd(), 'complex_networks', filename+'aaaqqq.gml')
+    filename = 'libra_messages_subreddit_libra.csv'
+    path = os.path.join(os.getcwd(), 'reddit_data', 'clean_data', filename)
+    path_saver = os.path.join(os.getcwd(), 'complex_networks', filename+'.gml')
 
     # load dataframe
     df = pd.read_csv(path)
-
-    # Create complex network
-    # create_network(df, path_saver)
+    # print(df.created_utc)
+    # # Create complex network
+    # # create_network(df, path_saver)
     new_create_network(df, path_saver)
-    print(f'Network created as {filename}')
+    # print(f'Network created as {filename}')

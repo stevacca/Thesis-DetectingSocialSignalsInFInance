@@ -24,7 +24,7 @@ if __name__ == '__main__':
     tema = 'Bitcoin'
 
     filenames = [
-        ('Bitcoin_messages_2018_december_data.csv', '#1874CD')
+        ('aion_messages_2017_2018_aion_data.csv', '#1874CD')
         # ('Vader_sentiment_Orbita Ferrari_cleanedData_2019-09-01_2019-09-30.csv','#1874CD')
         # ('Vader_sentiment_Leclerc_messages_2019_september_data.csv','#1874CD'),
         #          ('Vader_sentiment_Vettel_messages_2019_september_data.csv', '#228B22')

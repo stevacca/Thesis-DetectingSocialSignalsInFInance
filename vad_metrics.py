@@ -189,7 +189,7 @@ def from_unix_to_datestamp_date(datestamp):
 
 if __name__ == '__main__':
     # Import file to calculate VAD
-    file_name = 'bitcoin_2019_august_data.csv'
+    file_name = 'bitcoin_messages_2017_2018_aion_data.csv'
     file_folder = os.path.join(os.getcwd(), 'reddit_data', 'clean_data', file_name)
     df = pd.read_csv(file_folder)
 

@@ -58,11 +58,11 @@ def from_datestamp_to_unix_date(datestamp):
 if __name__ == '__main__':
     # https://www.epochconverter.com/
 
-    subreddit_query = 'dataisbeautiful'
+    subreddit_query = 'libra'
     query = ''
-    from_day = '2019-08-24 00:00:00'
-    to_day = '2019-09-23 23:59:59' # 23:59:59
-    folder_name = 'data_michi'# '2019_august_data'
+    from_day = '2019-09-01 00:00:00'
+    to_day = '2019-11-19 23:59:59' # 23:59:59
+    folder_name = 'subreddit_libra' # '2019_august_data'
     print(f'period of extraction data: {from_day} to {to_day}')
 
     # build the folder you want to save the data

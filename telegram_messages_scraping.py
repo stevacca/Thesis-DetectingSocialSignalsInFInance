@@ -74,11 +74,14 @@ def extract_to_csv(my_entities, my_client, my_from_day_timestamp, my_to_day_time
 if __name__ == '__main__':
     # Choose the date
     from_day_timestamp = '2019-09-01 00:00:00'
-    to_day_timestamp = '2019-09-17 23:59:59'
+    to_day_timestamp = '2019-09-30 23:59:59'
 
     # TELEGRAM NAME GROUP, LINK OF THE CHAT, NUMBER OF MESSAGES TO BE EXTRACTED
     entities = [
-        ('Ripple Group', 'https://t.me/Ripple', 205),
+        # ('Orbita Ferrari', 'https://t.me/OrbitaFerrariF1', 3000),
+        # ('Red Passion Ferrari', 'https://t.me/redpassionFerrari', 3000),
+        # ('Scuderia Ferrari', 'https://t.me/ScuderiaFerrariFan', 1500)
+
         # ('The Coin Farm', 'https://telegram.me/thecoinfarm', 3000),
         # ('Tron Village', 'https://t.me/TronVillage', 20000),
         # ('Bad Crypto Podcast', 'https://t.me/thebadcryptopodcast', 20000),
