@@ -33,7 +33,7 @@ def read_reddit_data_from_folder(path, query_name, from_day, to_day):
     data = []
     for start_date in range(from_day, to_day, 1800):
         file_name = query_name + '_' + str(start_date)
-        data += [read_json(path, file_name)]
+        data += [read_json(path)]
 
     return count_messages(data)
 
