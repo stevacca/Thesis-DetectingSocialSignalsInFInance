@@ -21,11 +21,11 @@ def from_unix_to_datestamp(date_time_stamp):
 
 if __name__ == '__main__':
     social = 'reddit'
-    tema = 'Facebook'
+    tema = 'Libra'
 
     filenames = [
-        ('Vader_sentiment_facebook_messages_libra_folder.csv', '#1874CD'),
-        ('Vader_sentiment_Libra&Facebook_messages_libra_folder.csv','#1874CD')
+        ('Vader_sentiment_Libra&Facebook_messages_libra_folder.csv', '#1874CD'),
+        #('Vader_sentiment_Libra&Facebook_messages_libra_folder.csv','#1874CD')
         # ('Vader_sentiment_Leclerc_messages_2019_september_data.csv','#1874CD'),
         #          ('Vader_sentiment_Vettel_messages_2019_september_data.csv', '#228B22')
         # ('Vader_sentiment_ferrari_2019_september_data.csv', '#DC143C'),

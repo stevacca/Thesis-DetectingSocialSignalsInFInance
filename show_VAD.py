@@ -9,6 +9,7 @@ import plotly.graph_objs as go
 import os
 from datetime import datetime
 
+
 def from_unix_to_datestamp(date_time_stamp):
     """
     Transform from unix to datestamp date
@@ -24,13 +25,8 @@ if __name__ == '__main__':
     tema = 'Bitcoin'
 
     filenames = [
-        ('aion_messages_2017_2018_aion_data.csv', '#1874CD')
+        ('Libra&Facebook_messages_libra_folder.csv', '#1874CD')
         # ('Vader_sentiment_Orbita Ferrari_cleanedData_2019-09-01_2019-09-30.csv','#1874CD')
-        # ('Vader_sentiment_Leclerc_messages_2019_september_data.csv','#1874CD'),
-        #          ('Vader_sentiment_Vettel_messages_2019_september_data.csv', '#228B22')
-        # ('Vader_sentiment_ferrari_2019_september_data.csv', '#DC143C'),
-                 # ('Vader_sentiment_formula1_2019_september_data.csv', '#3D59AB'),
-                 # ('Vader_sentiment_scuderiaferrari_2019_september_data.csv', '#228B22') # troppe poche osservazioni
                  ]
     n_files = len(filenames)
 

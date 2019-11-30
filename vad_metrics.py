@@ -33,7 +33,6 @@ def calulate_VAD(new_sentence, metrics):
 
     sentence = clean_text(new_sentence)  # clean the text from punctuations, stopwords and digits
     results = []
-
     for s_word in sentence:
         if s_word in metrics.word.tolist():
             # print(f'The word {word} is into the VAD metrics')
@@ -189,7 +188,7 @@ def from_unix_to_datestamp_date(datestamp):
 
 if __name__ == '__main__':
     # Import file to calculate VAD
-    file_name = 'bitcoin_messages_2017_2018_aion_data.csv'
+    file_name = 'Libra&Facebook_messages_libra_folder.csv'
     file_folder = os.path.join(os.getcwd(), 'reddit_data', 'clean_data', file_name)
     df = pd.read_csv(file_folder)
 

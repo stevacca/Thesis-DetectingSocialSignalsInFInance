@@ -36,7 +36,7 @@ def sentiment_scores(sentence):
 
 if __name__ == '__main__':
     # Reddit
-    name_file = 'facebook_messages_libra_folder.csv'
+    name_file = 'Libra&Facebook_messages_libra_folder.csv'
     path = os.path.join(os.getcwd(), 'reddit_data', 'clean_data')
     social = 'Reddit'
     # Telegram

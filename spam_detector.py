@@ -181,13 +181,13 @@ if __name__ == '__main__':
     spammer = 'reddit' # reddit
 
     # If reddit spam messages set folder
-    reddit_folder = 'subreddit_libra'
+    reddit_folder = 'subreddit_bitcoin'
     reddit_queries = [
-        'libra'
+        'bitcoin'
     ]
 
     # If telegram spam messages to consider
-    rangedate_from, rangedate_to = '2019-07-01', '2019-11-18'
+    rangedate_from, rangedate_to = '2018-11-01', '2019-10-31'
     names = [
         # 'Bad Crypto Podcast', 'The Coin Farm',
         # 'Ripple Group',
