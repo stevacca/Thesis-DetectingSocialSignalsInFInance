@@ -26,7 +26,7 @@ if __name__ == '__main__':
     # print(embedding)
 
     path_to_dtm_binary = os.path.join(os.getcwd(), 'dynamic_lda_folder', 'dtm-win64.exe')
-    model = DtmModel(path_to_dtm_binary, corpus = common_corpus, id2word = common_dictionary,
-                     time_slices = [1] * len(common_corpus))
+    model = DtmModel(path_to_dtm_binary, corpus=common_corpus, id2word=common_dictionary,
+                     time_slices=[1] * len(common_corpus))
 
     print(model)

@@ -259,14 +259,13 @@ if __name__ == '__main__':
 
     # plot the heatmap
 
-    # # df = df['2017-12-11':'2017-12-18']
+    df = df['2017-12-11':'2017-12-18']
     correlation_plot(df)
 
     df = df.reset_index()
 
     # Using plotly.express
     import plotly.express as px
-
     import pandas as pd
 
     fig = px.line(df, x='date', y='daily_delta_price_aion')

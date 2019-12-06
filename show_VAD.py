@@ -79,5 +79,5 @@ if __name__ == '__main__':
         fig.append_trace(trace2, row=2, col=1)
         fig.append_trace(trace3, row=3, col=1)
 
-    fig['layout'].update(height=600, width=800, title='Andamento delle metriche VAD su Reddit per la chiave di ricerca' + tema .capitalize())
+    fig['layout'].update(height=600, width=800, title='Andamento delle metriche VAD su Reddit per la chiave di ricerca ' + tema .capitalize())
     py.plot(fig, filename='Sentiment Analysis Reddit')
