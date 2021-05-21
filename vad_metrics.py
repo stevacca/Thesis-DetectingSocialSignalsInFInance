@@ -91,8 +91,8 @@ def calulate_VAD(new_sentence, metrics):
     else:
         vad_valence, vad_arousal, vad_dominance = valences[0], arousals[0], dominances[0]
 
-    print(f'The valence is {str(vad_valence)}, the arousal is {str(vad_arousal)},'
-          f' while the dominance is {str(vad_dominance)}')
+    # print(f'The valence is {str(vad_valence)}, the arousal is {str(vad_arousal)},'
+    #       f' while the dominance is {str(vad_dominance)}')
     return [new_sentence, vad_valence, vad_arousal, vad_dominance]
 
 
@@ -188,8 +188,8 @@ def from_unix_to_datestamp_date(datestamp):
 
 if __name__ == '__main__':
     # Import file to calculate VAD
-    file_name = 'Libra&Facebook_messages_libra_folder.csv'
-    file_folder = os.path.join(os.getcwd(), 'reddit_data', 'clean_data', file_name)
+    file_name = 'CoronaToken_messages_R_CoronaToken.csv'
+    file_folder = os.path.join(os.getcwd(), 'reddit_data', '_clean_data', file_name)
     df = pd.read_csv(file_folder)
 
     # Import VAD metrics

@@ -36,13 +36,13 @@ def sentiment_scores(sentence):
 
 if __name__ == '__main__':
     # Reddit
-    name_file = 'Libra&Facebook_messages_libra_folder.csv'
-    path = os.path.join(os.getcwd(), 'reddit_data', 'clean_data')
-    social = 'Reddit'
+    name_file = 'CoronaCoin_cleanedData_2019-09-01_2020-03-10.csv'
+    path = os.path.join(os.getcwd(), 'telegram_data', '_clean_data')
+    social = 'telegram'
     # Telegram
     # social = 'Telegram'
     # name_file = 'Scuderia Ferrari_cleanedData_2019-09-01_2019-09-30.csv'
-    # path = os.path.join(os.getcwd(), 'telegram_data', 'clean_data')
+    # path = os.path.join(os.getcwd(), 'telegram_data', '_clean_data')
 
     df = pd.read_csv(os.path.join(path, name_file))
     print(df.columns)
