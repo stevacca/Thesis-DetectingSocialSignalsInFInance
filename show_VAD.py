@@ -25,7 +25,7 @@ if __name__ == '__main__':
     tema = 'Bitcoin'
 
     filenames = [
-        ('Libra&Facebook_messages_libra_folder.csv', '#1874CD')
+        ('CoronaToken_messages_R_CoronaToken.csv', '#1874CD')
         # ('Vader_sentiment_Orbita Ferrari_cleanedData_2019-09-01_2019-09-30.csv','#1874CD')
                  ]
     n_files = len(filenames)

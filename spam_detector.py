@@ -15,6 +15,19 @@ from sklearn.metrics import accuracy_score, classification_report
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
 import nltk
+from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_auc_score
+import codecs
+import json
+
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics import classification_report
+from sklearn.preprocessing import LabelBinarizer
+
+from scipy import interp
+import matplotlib.pyplot as plt
+from itertools import cycle
+from sklearn.metrics import roc_curve, auc
 
 from handle_data import read_json
 
@@ -45,10 +58,10 @@ svm_classifier = Pipeline([
                                          ngram_range=(1, 2)
                                          )),
         ('clf', SVC(probability=True,
-                    C=2,
+                    C=1.0833,
                     shrinking=True,
                     kernel='linear',
-                    gamma=0.001,
+                    # gamma=0.001,
                     class_weight='balanced'
                     ))
 ])
@@ -114,18 +127,38 @@ def define_spam_classifier(directory, classifier):
     """
     bow = pd.read_csv(directory, encoding='latin-1')
     bow = bow[['v1', 'v2']]
-    bow.columns = [['label', 'body']]
+    bow.columns = ['label', 'body']
 
-    x = [text[0] for i, text in bow['body'].iterrows()]
-    y = [label[0] for i, label in bow['label'].iterrows()]
+    x = [text for text in bow['body'].tolist()]
+    y = [label for label in bow['label'].tolist()]
 
     x_train, x_test, y_train, y_test = train_test_split(
         x, y,
-        test_size=0.33,
-        random_state=33)
+        test_size=0.20,
+        random_state=38)
 
     classifier.fit(x_train, y_train)
+    print('Classifier informations:')
+    print(classifier.get_params())
+    print()
+
     preds = classifier.predict(x_test)
+
+    import scikitplot as skplt
+    import matplotlib.pyplot as plt
+    # plot_roc_curve(y_test, y_score, filename=None, path=None)
+    y_probas = classifier.predict_proba(x_test)
+    skplt.metrics.plot_roc_curve(y_test, y_probas, cmap='inferno')
+
+    print(y_test)
+    # y_test = [0 if i == 'ham' else 1 for i in y_test]
+    ypsilon = classifier.decision_function(x_test)
+    print(ypsilon)
+    print(f'AUC score is {roc_auc_score(y_test, ypsilon)}')
+    skplt.metrics.plot_confusion_matrix(y_test, preds, normalize=False, title='Confusion Matrix')
+
+    plt.show()
+
     print('\n------------------------- Spam Model metrics ------------------------\n'
           'Number of training bow: {}\n Number of test bow: {}\n\nThe accuracy of the SVM model is: {}%'.format
           (len(x_train), len(x_test), accuracy_score(y_test, preds) * 100), '\n\n',
@@ -154,7 +187,7 @@ def clean_spam_telegram(names, rangedate_from, rangedate_to, spam_classifier, sp
         data = data.iloc[:, 1:]
         df = predict_spam(data, spam_classifier, type_data=spammer)
 
-        df.to_csv(os.path.join(os.getcwd(), 'telegram_data', 'clean_data', nome+'_cleanedData_'
+        df.to_csv(os.path.join(os.getcwd(), 'telegram_data', '_clean_data', nome+'_cleanedData_'
                                + rangedate_from + '_' + rangedate_to + '.csv'))
         print('File salvato correttamente nella cartella "CLEANED_DATA"')
 
@@ -173,26 +206,28 @@ def clean_spam_reddit(reddit_queries, spam_classifier, spammer, folder):
         # Predict spam
         df = predict_spam(data, spam_classifier, type_data=spammer)
         # save to csv
-        df.to_csv(os.path.join(os.getcwd(), 'reddit_data', 'clean_data', query + '_messages_' + folder + '.csv'))
+
+        df.to_csv(os.path.join(os.getcwd(), 'reddit_data', '_clean_data', query + '_messages_' + folder + '.csv'))
+        print('File salvato correttamente nella cartella "_clean_data"')
 
 
 if __name__ == '__main__':
     # Select spammer
-    spammer = 'reddit' # reddit
+    spammer = "reddit" # 'telegram'  # reddit
 
     # If reddit spam messages set folder
-    reddit_folder = 'subreddit_bitcoin'
+    reddit_folder = '20210215_GameStop'
     reddit_queries = [
-        'bitcoin'
+        'wallstreetbets'
     ]
 
     # If telegram spam messages to consider
-    rangedate_from, rangedate_to = '2018-11-01', '2019-10-31'
+    rangedate_from, rangedate_to = '2019-09-01', '2021-08-20'
     names = [
         # 'Bad Crypto Podcast', 'The Coin Farm',
         # 'Ripple Group',
-        'Red Passion ferrari',
-        'Scuderia Ferrari'
+        'CoronaCoin',
+        # 'Scuderia Ferrari'
         # 'WCSE RA TALKS', 'Tron Village',
         # 'Singularity net', 'AION Network'
     ]

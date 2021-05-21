@@ -94,12 +94,12 @@ def authors_with_max_comments(authors_with_max_comments, n_authors=10):
 
 
 if __name__ == '__main__':
-    query = 'bitcoin'
+    query = 'coronavirus'
 
     # set the folder and the date
-    path_loader = os.path.join(os.getcwd(), 'reddit_data', 'clean_data')
-    from_day = '2019-06-01 00:00:00'
-    to_day = '2019-06-01 03:00:00'
+    path_loader = os.path.join(os.getcwd(), 'reddit_data', 'Coronavirus_messages_coronavirus.csv')
+    from_day = '2018-01-01 00:00:00'
+    to_day = '2020-08-01 03:00:00'
 
     print(f'period of extraction data: {from_day[:9]} to {to_day[:9]}')
 

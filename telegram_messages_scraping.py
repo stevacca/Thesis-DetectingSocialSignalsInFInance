@@ -73,17 +73,20 @@ def extract_to_csv(my_entities, my_client, my_from_day_timestamp, my_to_day_time
 
 if __name__ == '__main__':
     # Choose the date
-    from_day_timestamp = '2019-09-01 00:00:00'
-    to_day_timestamp = '2019-09-30 23:59:59'
+    from_day_timestamp = '2020-08-24 00:00:00'
+    to_day_timestamp = '2020-09-06 23:59:59'
 
     # TELEGRAM NAME GROUP, LINK OF THE CHAT, NUMBER OF MESSAGES TO BE EXTRACTED
     entities = [
-        # ('Orbita Ferrari', 'https://t.me/OrbitaFerrariF1', 3000),
-        # ('Red Passion Ferrari', 'https://t.me/redpassionFerrari', 3000),
-        # ('Scuderia Ferrari', 'https://t.me/ScuderiaFerrariFan', 1500)
+        # ('Passione Politica', 'https://t.me/PassionePolitica', 30000),
+        # ('Parliamo di politica', 'https://t.me/parliamo_di_politica', 30000),
+        # ('OP_Politica_Attualita', 'https://t.me/Gruppo_OP', 300000),
 
-        # ('The Coin Farm', 'https://telegram.me/thecoinfarm', 3000),
-        # ('Tron Village', 'https://t.me/TronVillage', 20000),
+        # ('Scuderia Ferrari', 'https://t.me/ScuderiaFerrariFan', 1500)
+        # ('QAnons Italia2', 'https://t.me/QAnons_italia', 30000),
+        # ('Qanons Ven-Italia 2 Dark to Light2', 'https://t.me/QanonVeneto', 30000),
+        ('Q Research Ven-Ita', 'https://t.me/Veleno57432367', 10000),
+
         # ('Bad Crypto Podcast', 'https://t.me/thebadcryptopodcast', 20000),
         # ('WCSE RA TALKS', 'https://t.me/wcsetalks', 25000),
         # ('Singularity net', 'https://t.me/singularitynet', 25000),

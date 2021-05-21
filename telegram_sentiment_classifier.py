@@ -174,7 +174,7 @@ if __name__ == '__main__':
     file_list = ['_Telegram_cleanedData_2019-09-01_2019-09-17.csv']
     for file in file_list:
 
-        dataframe = pd.read_csv(os.path.join(os.getcwd(), 'telegram_data', 'clean_data', file))
+        dataframe = pd.read_csv(os.path.join(os.getcwd(), 'telegram_data', '_clean_data', file))
         dataframe = dataframe.drop(dataframe.columns[0], axis=1)
         dataframe = calculate_sentiment(dataframe, classifier)
         dataframe.to_csv(os.path.join(os.getcwd(), 'sentiment_results', 'telegram_sentiment', 'sentiment_.csv'))

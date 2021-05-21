@@ -30,7 +30,7 @@ def show_trend(dataframe, frequency, crypto_name, col):
 
     fig.update_layout(title_text='Frequenza assoluta dei messaggi {}'.format(crypto_name),
                       xaxis_rangeslider_visible=True)
-    fig.show()
+    # fig.show()
 
     # To save figure offline
     # config = {
@@ -60,17 +60,25 @@ def group_dataframes(path_loader, frequency):
 
 if __name__ == '__main__':
 
-    file_names = ['bitcoin_messages_subreddit_bitcoin.csv',
-                  'blockchain_messages_subreddit_blockchain.csv',
-                  'Libra&Facebook_messages_libra_folder.csv',
-                  'libra_messages_subreddit_libra.csv']
+    file_names = ['Bitcoin_messages_subreddit_bitcoin_tesi.csv',
+                  'Ethereum_messages_subreddit_ethereum_tesi.csv',
+                  # 'Libra&Facebook_messages_libra_folder.csv',
+                  # 'libra_messages_subreddit_libra.csv'
+                  ]
 
     colors = ['rgba(152, 0, 0, .8)', '#FF7F00', '#1874CD', '#4F4F4F']
+    fig = go.Figure()
     for i, file in enumerate(file_names):
         color = colors[i]
         # set the folder and the date
-        path_loader = os.path.join(os.getcwd(), 'reddit_data', 'clean_data', file)
-        freq = '30D'
+        path_loader = os.path.join(os.getcwd(), 'reddit_data', '_clean_data', file)
+        freq = 'M' # '30D'
         title_name = file.split('_')[0].capitalize()
         bitcoin_df = group_dataframes(path_loader, freq)
-        show_trend(bitcoin_df, freq, title_name, color)
+        # show_trend(bitcoin_df, freq, title_name, color)
+
+        fig.add_trace(go.Bar(x=bitcoin_df.index, y=bitcoin_df.values, name='Frequenza assoluta', marker_color=color))
+
+        fig.update_layout(title_text='Frequenza assoluta dei messaggi {}'.format(title_name),
+                          xaxis_rangeslider_visible=True)
+    fig.show()

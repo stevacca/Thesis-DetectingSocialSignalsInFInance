@@ -13,6 +13,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
 import seaborn as sns
+import investpy
+
 plt.style.use('ggplot')
 
 
@@ -52,7 +54,7 @@ def from_unix_to_datestamp(date_time_stamp):
     :return: datestamp date
     """
     date_time_stamp = int(date_time_stamp)
-    return datetime.utcfromtimestamp(date_time_stamp).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.utcfromtimestamp(date_time_stamp).strftime('%Y-%m-%d') #  %H:%M:%S
 
 
 def create_cripto_dataframe(cripto_name, start_time, end_time):
@@ -162,15 +164,15 @@ def concat_vads_scores(main_dataframe, filenames_vads):
 
 def dataset(dataframe1, dataframe2, filenames_sentiment, filenames_vads):
 
-    df_cripto1 = pd.read_excel(os.path.join(os.getcwd(), 'data_cripto', dataframe1))
-    df_cripto1 = create_crypto_features(df_cripto1, name_cripto_1)
-
-    # dataset bitcoin
-    df_cripto2 = pd.read_excel(os.path.join(os.getcwd(), 'data_cripto', dataframe2))
+    # df_cripto1 = pd.read_excel(os.path.join(os.getcwd(), 'data_cripto', dataframe1))
+    # df_cripto1 = create_crypto_features(df_cripto1, name_cripto_1)
+    #
+    # # dataset bitcoin
+    # df_cripto2 = pd.read_excel(os.path.join(os.getcwd(), 'data_cripto', dataframe2))
     df_cripto2 = create_crypto_features(df_cripto2, name_cripto_2)
 
     # join two dataframes
-    main_df = pd.concat([df_cripto1, df_cripto2], axis=1, sort=False)
+    # main_df = pd.concat([df_cripto1, df_cripto2], axis=1, sort=False)
 
     # TODO: DATA ORDINATA
     data = main_df.date_bitcoin.tolist()
@@ -237,46 +239,85 @@ if __name__ == '__main__':
     social = 'reddit'
     tema = 'Bitcoin'
 
-    start_time, end_time = '20171201', '20180115'
+    start_time, end_time = '20190918', '20200103'
     #######################
     # VAD SCORES
     # Add VAD scores
     filenames_vads = [
-        'bitcoin_messages_2017_2018_aion_data.csv',
-        'aion_messages_2017_2018_aion_data.csv'
+        'bitcoin_messages_indipendent_folder.csv',
+        # 'bitcoin_messages_2017_2018_aion_data.csv',
+        # 'aion_messages_2017_2018_aion_data.csv'
         ]
-
+    df_vad = pd.read_csv(os.path.join(os.getcwd(), 'vad_metrics_folder', filenames_vads[0]))
+    df_vad['date'] = pd.to_datetime(df_vad['date'])
+    df_vad['date'] = df_vad['date'].apply(lambda x: dt.datetime.strftime(x, '%Y-%m-%d'))
+    df_vad = df_vad.groupby('date').mean()
+    df_vad = df_vad.drop('Unnamed: 0', axis=1)
+    # print(df.columns)
+    print('Vad scores averaged per day')
+    print(df_vad.head())
+    print()
     #######################
     # SENTIMENT
     # Add Sentiment scores
     filenames_sentiment = [
-        'Vader_sentiment_bitcoin_messages_2017_2018_aion_data.csv',
-        'Vader_sentiment_aion_messages_2017_2018_aion_data.csv'
+        'Vader_sentiment_bitcoin_messages_indipendent_folder.csv',
+        # 'Vader_sentiment_bitcoin_messages_2017_2018_aion_data.csv',
+        # 'Vader_sentiment_aion_messages_2017_2018_aion_data.csv'
     ]
+    df_sentiment = pd.read_csv(os.path.join(os.getcwd(), 'sentiment_results', 'reddit_sentiment', filenames_sentiment[0]))
+    df_sentiment['date'] = df_sentiment.date.apply(lambda x: from_unix_to_datestamp(x))
+    df_sentiment = df_sentiment.groupby('date').sentiment_code.mean()
+    print('Sentiment scores averaged per day')
+    print(df_sentiment.head())
+    print()
 
-    data, df = dataset('aion1Dec_15Gen2017_18_data.xlsx', 'bitcoin1Dec_15Gen2017_18_data.xlsx',
-                      filenames_sentiment, filenames_vads)
-
-    # plot the heatmap
-
-    df = df['2017-12-11':'2017-12-18']
-    correlation_plot(df)
-
-    df = df.reset_index()
-
-    # Using plotly.express
-    import plotly.express as px
-    import pandas as pd
-
-    fig = px.line(df, x='date', y='daily_delta_price_aion')
-    fig.show()
-
-    df = df.loc[:, df.columns != 'date']
-    print(df)
+    # Merge dataframes
+    df = pd.merge(df_sentiment, df_vad, on='date')
+    df['date'] = df_sentiment.index.tolist()
     print(df.columns)
 
-    # TODO: TO PREDICT
-    y = 'daily_delta_price_aion'
+    #######################
+    # Crypto
+    s_year, s_month, s_day = df.date.tolist()[0].split('-')
+    e_year, e_month, e_day = df.date.tolist()[len(df)-1].split('-')
+    data = investpy.get_crypto_historical_data(crypto=name_cripto_2,
+                                               from_date='{}/{}/{}'.format(s_day, s_month, s_year),
+                                               to_date='{}/{}/{}'.format(e_day, e_month, e_year))
+    data['date'] = data.index.tolist()
+    # Reset indexes
+    df = df.reset_index(drop=True)
+    data = data.reset_index(drop=True)
+    df['date'] = data['date'].tolist()
+
+    df = pd.merge(df, data, on=['date'])
+    print(df)
+
+    # plot the heatmap
+    df = df.set_index('date')
+    df = df['2019-09-21':'2019-09-28']
+    # print(df)
+    # Correlation plot
+    correlation_plot(df)
+
+    create_crypto_features(df, 'bitcoin')
+
+    #
+    # df = df.reset_index()
+    #
+    # # Using plotly.express
+    # import plotly.express as px
+    # import pandas as pd
+    #
+    # fig = px.line(df, x='date', y='daily_delta_price_aion')
+    # fig.show()
+    #
+    # df = df.loc[:, df.columns != 'date']
+    # print(df)
+    # print(df.columns)
+    #
+    # # TODO: TO PREDICT
+    # y = 'daily_delta_price_aion'
 
     # df = df[[y,
     #         'sentiment_code_aion', 'sentiment_code_bitcoin', 'valence_aion', 'arousal_aion',

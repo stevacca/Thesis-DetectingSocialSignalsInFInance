@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     # Insert Reddit dataframe to calculate the network
     filename = 'libra_messages_subreddit_libra.csv'
-    path = os.path.join(os.getcwd(), 'reddit_data', 'clean_data', filename)
+    path = os.path.join(os.getcwd(), 'reddit_data', '_clean_data', filename)
     path_saver = os.path.join(os.getcwd(), 'complex_networks', filename+'.gml')
 
     # load dataframe

@@ -9,6 +9,7 @@ import plotly.graph_objs as go
 import os
 from datetime import datetime
 
+
 def from_unix_to_datestamp(date_time_stamp):
     """
     Transform from unix to datestamp date
@@ -20,11 +21,11 @@ def from_unix_to_datestamp(date_time_stamp):
 
 
 if __name__ == '__main__':
-    social = 'reddit'
-    tema = 'Libra'
+    social = 'telegram'
+    tema = 'Coronavirus'
 
     filenames = [
-        ('Vader_sentiment_Libra&Facebook_messages_libra_folder.csv', '#1874CD'),
+        ('Vader_sentiment_CoronaCoin_cleanedData_2019-09-01_2020-03-10.csv', '#104E8B'),
         #('Vader_sentiment_Libra&Facebook_messages_libra_folder.csv','#1874CD')
         # ('Vader_sentiment_Leclerc_messages_2019_september_data.csv','#1874CD'),
         #          ('Vader_sentiment_Vettel_messages_2019_september_data.csv', '#228B22')
@@ -43,19 +44,21 @@ if __name__ == '__main__':
         print(df.columns)
         if social == 'reddit':
             df['date'] = [from_unix_to_datestamp(ts) for ts in df['date'].tolist()]
-        else:
-            df['date'] = [from_unix_to_datestamp(ts) for ts in df['date'].tolist()]
+
         df['date'] = pd.to_datetime(df['date'])
-        df['date'] = df['date'].apply(lambda x: dt.datetime.strftime(x, '%Y-%m-%d'))
+
+        df['date'] = df['date'].apply(lambda x: dt.datetime.strftime(x, '%Y-%m-%d')) # %Y-%m-%d %H
+        print(df.date)
 
         df = df.set_index('date')
         ts = df.groupby('date').sentiment_code.mean()
         query = filenames[i-1][0].split('_')[2]
-
+        print(ts)
         # Create and style traces
         trace = go.Scatter(
             x=ts.index,
             y=ts,
+            # showlegend=True,
             name='Sentiment ' + query.capitalize(),
             mode='lines+markers',
             line=dict(
@@ -65,5 +68,10 @@ if __name__ == '__main__':
 
         fig.append_trace(trace, i, 1)
 
-    fig['layout'].update(height=600, width=800, title='Sentiment Analysis su Reddit per il tema ' + tema .capitalize())
+    fig['layout'].update(height=600, width=800,
+           title='Sentiment Analysis on CoronaToken Telegram Group')
+
     py.plot(fig, filename='Sentiment Analysis Reddit')
+
+
+

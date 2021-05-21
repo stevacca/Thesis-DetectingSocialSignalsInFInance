@@ -12,6 +12,7 @@ import numpy as np
 import nltk
 from sklearn.svm import SVC
 import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score
 
 from sklearn.pipeline import Pipeline
 
@@ -21,6 +22,13 @@ import seaborn as sns
 
 
 def svc_param_selection(X, y, nfolds):
+    """
+
+    :param X:
+    :param y:
+    :param nfolds:
+    :return:
+    """
     cs = [0.001, 0.01, 0.1, 1, 2, 5, 10, 15, 20]
     gammas = [0.001, 0.01, 0.1, 1, 'auto']
     kernels = ['linear', 'poly', 'rbf', 'sigmoid']
@@ -69,6 +77,7 @@ def cleanText(text):
     except:
         return ''
 
+
 def plot_histogram(dataset, y_label, palette='Blues'):
 
     sns.set_context('paper')
@@ -77,6 +86,7 @@ def plot_histogram(dataset, y_label, palette='Blues'):
     sns.countplot(x=y_label, data=dataset, palette=palette)
     plt.title('Distribuzione delle classi sul dataset originale')
     plt.show()
+
 
 if __name__ == '__main__':
     # Create spam classifier

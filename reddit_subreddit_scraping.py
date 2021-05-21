@@ -7,6 +7,7 @@ import os
 def show_keys(data):
     """
     Function to show up the keys of a list od dictionaties
+
     :param data: the list with whose istances are dictionaries
     :return: None, it just print out every key dict by dict
     """
@@ -28,7 +29,7 @@ def extracting_data(path, file_name, query_subreddit, query_name, after, before)
     :return: a json file with all the informations extracted from the API
     """
 
-    url = 'https://api.pushshift.io/reddit/search/comment/?q='+query_name+'&subreddit='+subreddit_query+\
+    url = 'https://api.pushshift.io/reddit/search/comment/?q='+query_name+'&subreddit='+query_subreddit +\
           '&after=' + str(after) + '&before=' + str(before)
     resp = requests.get(url=url)
     data = resp.json()
@@ -57,12 +58,12 @@ def from_datestamp_to_unix_date(datestamp):
 
 if __name__ == '__main__':
     # https://www.epochconverter.com/
-    # TODO: 17 SEETEMBRE
-    subreddit_query = 'bitcoin'
-    query = ''
-    from_day = '2019-06-01 00:00:00'   # 2018-11-01 00:00:00
-    to_day = '2019-10-31 23:59:59' # 23:59:59
-    folder_name = 'subreddit_bitcoin' # '2019_august_data'
+    subreddit_query = 'wallstreetbets'
+    query = 'game%20stop|gamestop'
+    from_day = '2021-02-14 00:00:00'
+    to_day = '2021-03-03 23:59:59'  # 23:59:59
+    folder_name = '20210215_GameStop'
+    name_query_file = ''
     print(f'period of extraction data: {from_day} to {to_day}')
 
     # build the folder you want to save the data
@@ -73,7 +74,7 @@ if __name__ == '__main__':
 
     for start_date in range(from_day, to_day, 1800):
         end_date = start_date + 1800
-        name_file = subreddit_query + '_' + str(start_date)
+        name_file = subreddit_query + '_' + name_query_file + '_' + str(start_date)
         try:
             extracting_data(saver_folder, name_file, subreddit_query, query, start_date, end_date)
         except ValueError:

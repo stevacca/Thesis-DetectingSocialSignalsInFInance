@@ -57,11 +57,13 @@ def from_datestamp_to_unix_date(datestamp):
 
 if __name__ == '__main__':
     # https://www.epochconverter.com/
-
-    query = 'Libra&Facebook'
-    from_day = '2019-11-25 00:00:00'
-    to_day = '2019-11-27 23:59:59' # 23:59:59
-    folder_name = 'libra_folder' # '2019_august_data'
+    frequenza = 1800  # 1800:mezz'ora, 3600:un ora
+    query = 'italydidit'  # + AND operation ------- | OR operation ------------- %20 frase esatta!
+    query_file_title = query.replace('|', '_')
+    print(query_file_title)
+    from_day = '2020-11-01 00:00:01' #### dal 1° aprile
+    to_day = '2021-01-09 18:59:59' # 23:59:59
+    folder_name = '20210108_QAnon' # '2019_august_data'
     print(f'period of extraction data: {from_day} to {to_day}')
 
     # build the folder you want to save the data
@@ -70,9 +72,9 @@ if __name__ == '__main__':
     from_day = from_datestamp_to_unix_date(from_day)
     to_day = from_datestamp_to_unix_date(to_day)
 
-    for start_date in range(from_day, to_day, 1800):
-        end_date = start_date + 1800
-        name_file = query + '_' + str(start_date)
+    for start_date in range(from_day, to_day, frequenza):
+        end_date = start_date + frequenza
+        name_file = query_file_title + '_' + str(start_date)
         try:
             extracting_data(saver_folder, name_file, query, start_date, end_date)
         except ValueError:

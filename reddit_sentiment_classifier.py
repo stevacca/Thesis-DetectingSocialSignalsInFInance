@@ -209,11 +209,11 @@ if __name__ == '__main__':
     classifier = get_reddit_classifier(svm_classifier)
 
     # Choose the files to calculate the Sentiment
-    file_list = ['Bitcoin_messages_2019_january_data.csv']
+    file_list = ['Coronavirus_messages_coronavirus.csv']
     for file in file_list:
         file_name_tosave = file.split('_')[0]
 
-        dataframe = pd.read_csv(os.path.join(os.getcwd(), 'reddit_data', 'clean_data', file))
+        dataframe = pd.read_csv(os.path.join(os.getcwd(), 'reddit_data', '_clean_data', file))
         dataframe = dataframe.drop(dataframe.columns[0], axis=1)
         dataframe = calculate_sentiment(dataframe, classifier)
         dataframe.to_csv(os.path.join(os.getcwd(), 'sentiment_results', 'reddit_sentiment', 'sentiment_'+file))

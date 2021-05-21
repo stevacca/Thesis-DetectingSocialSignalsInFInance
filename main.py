@@ -154,7 +154,7 @@ def clean_spam_telegram(names, rangedate_from, rangedate_to, spam_classifier, sp
         data = data.iloc[:, 1:]
         df = predict_spam(data, spam_classifier, type_data=spammer)
 
-        df.to_csv(os.path.join(os.getcwd(), 'telegram_data', 'clean_data', nome+'_cleanedData_'
+        df.to_csv(os.path.join(os.getcwd(), 'telegram_data', '_clean_data', nome+'_cleanedData_'
                                + rangedate_from + '_' + rangedate_to + '.csv'))
         print('File salvato correttamente nella cartella "CLEANED_DATA"')
 
