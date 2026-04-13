@@ -77,7 +77,7 @@ pyasn1==0.4.5
 Pygments==2.3.1
 pyLDAvis==2.1.2
 pyparsing==2.3.0
-pytest==4.0.2
+pytest==9.0.3
 python-dateutil==2.7.5
 pytz==2018.7
 pywinpty==0.5.5
