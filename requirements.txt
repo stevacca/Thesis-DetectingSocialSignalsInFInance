@@ -32,7 +32,7 @@ Flask-Compress==1.4.0
 funcy==1.11
 future==0.17.1
 gensim==3.8.0
-idna==2.8
+idna==3.15
 ipykernel==5.1.0
 ipython==7.2.0
 ipython-genutils==0.2.0
